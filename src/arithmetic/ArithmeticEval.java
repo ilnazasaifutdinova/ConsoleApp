@@ -7,6 +7,10 @@ package arithmetic;
 
 public class ArithmeticEval {
     public long evaluate(String expression) {
+        if (expression == null || expression.isEmpty()) {
+            System.out.println("Expression is null or empty");
+            return 0; //return non-letters in the String
+        }
         return 0;
     }
 }
