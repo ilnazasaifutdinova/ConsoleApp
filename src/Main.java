@@ -84,8 +84,24 @@ public class Main {
                             String resultDec = cipher.decrypt(input, shiftDec); //decrypt() with shift value
                             System.out.println("Result: " + resultDec);
                         } else if (shiftValue.equals("n")) {
-                            String resultDec = cipher.decrypt(input); //decrypt() without shift value
-                            System.out.println("Result: " + resultDec);
+                            var candidates = cipher.decryptCandidates(input);
+                            System.out.println("Possible decryptions:");
+                            for (var candidate : candidates) {
+                                System.out.println("Shift " + candidate.shift + ": " + candidate.text);
+                            }
+                            System.out.print("Please enter the correct shift value from above: ");
+                            String chosenShiftStr = scanner.nextLine();
+                            int chosenShift;
+                            try {
+                                chosenShift = Integer.parseInt(chosenShiftStr);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Returning to menu.");
+                                break;
+                            }
+                            String finalDecrypted = cipher.decrypt(input, chosenShift);
+                            System.out.println("Decryption mode:");
+                            System.out.println("Input: \"" + input + "\"");
+                            System.out.println("Output: \"" + finalDecrypted + "\", shift: " + chosenShift);
                         } else {
                             System.out.println("Invalid choice. Please, choose y/n.");
                         }
