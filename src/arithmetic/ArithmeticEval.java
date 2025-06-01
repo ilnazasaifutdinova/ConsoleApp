@@ -2,6 +2,7 @@ package arithmetic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 // This class provides Arithmetic Expression Evaluation.
 
@@ -44,8 +45,46 @@ public class ArithmeticEval {
         return tokenised;
     }
 
+    private int priority(String operations) {
+        switch (operations) {
+            case "+":
+            case "-":
+                return 1;
+            case "*":
+            case "/":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
     private List<String> toRNP(List<String> tokens) {
-        return tokens;
+        List<String> notation = new ArrayList<>();
+        Stack<String> operations = new Stack<>();
+
+        for (String token : tokens) {
+            if (token.matches("-?\\d+(\\.\\d+)?")) {
+                notation.add(token);
+            } else if (token.equals("(")) {
+                operations.push(token);
+            } else if (token.equals(")")) {
+                while (!operations.empty() && !operations.peek().equals("(")) {
+                    notation.add(operations.pop());
+                }
+                if (!operations.empty() && operations.peek().equals("(")) {
+                    operations.pop(); //delete the bracket "("
+                }
+            } else if (isOperator(token.charAt(0))) {
+                while (!operations.empty() && priority(operations.peek()) >= priority(token)) {
+                    notation.add(operations.pop());
+                }
+                operations.push(token);
+            }
+        }
+        while (!operations.empty()) {
+            notation.add(operations.pop());
+        }
+        return notation;
     }
 
     private long evalRNP(List<String> rpn) {
