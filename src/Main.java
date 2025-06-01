@@ -1,5 +1,6 @@
 import arithmetic.ArithmeticEval;
 import caesar.CaesarCipher;
+import reading.Reading;
 import java.util.Scanner;
 
 // Console-based application for the Gehtsoft technical assessment.
@@ -37,7 +38,11 @@ public class Main {
                 if (choice.equals("y")) {
                     System.out.print("Enter path to file: ");
                     String path = scanner.nextLine();
-                    input = cipher.readFile(path); //readFile method will read info from the file
+                    input = Reading.readFile(path); //readFile method will read info from the file
+                    if (input.isEmpty()) {
+                        System.out.println("File is empty or file not found");
+                        continue;
+                    }
                 } else if (choice.equals("n")) {
                     System.out.print("Enter input: ");
                     input = scanner.nextLine();
@@ -87,8 +92,12 @@ public class Main {
                         break;
                     case "3":
                         //Arithmetic Expression Evaluation
-                        long resultEval = arithEval.evaluate(input);
-                        System.out.println("Result: " + resultEval);
+                        try {
+                            long resultEval = arithEval.evaluate(input);
+                            System.out.println("Result: " + resultEval);
+                        } catch (ArithmeticException e) {
+                            System.out.println("Error evaluating expression: ");
+                        }
                         break;
                     default:
                         System.out.println("Invalid choice. Please, choose from 1 to 4.");
@@ -106,7 +115,7 @@ public class Main {
                     System.out.println("Returning to menu..");
                     break;
                 default:
-                    System.out.print("Invalid choice. Please, choose y/n: ");
+                    System.out.println("Invalid choice. Returning to menu..");
                     break;
             }
         }

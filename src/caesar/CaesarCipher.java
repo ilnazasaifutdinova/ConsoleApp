@@ -7,8 +7,14 @@ package caesar;
 
 public class CaesarCipher {
 
+    private String rusAlphaUpper;
+    private String rusAlphaLower;
+    private String engAlphaUpper;
+    private String engAlphaLower;
+
     public String encrypt(String plainText, int shiftEnc) {
         //Caesar Cipher Encryption
+        //private int key;
         return null;
     }
 
@@ -19,11 +25,6 @@ public class CaesarCipher {
 
     public String decrypt(String cipherText) {
         //Caesar Cipher Decryption
-        return null;
-    }
-
-    public String readFile(String filePath) {
-        //Ensure getting info from file
         return null;
     }
 }
