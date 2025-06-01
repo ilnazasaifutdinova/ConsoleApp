@@ -5,6 +5,9 @@ package caesar;
 // No constructor is used — all methods work directly with the input data
 // to keep the solution simple and avoid unnecessary complexity.
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CaesarCipher {
 
     //Russian Alphabet excludes "Ё" / "ё" for the accurate CaesarCipher Algorithm
@@ -57,14 +60,82 @@ public class CaesarCipher {
         if (cipherText == null || cipherText.isEmpty()) {
             return "";
         }
-        return encrypt(cipherText, (-1) * shiftDec);
+        return encrypt(cipherText, -shiftDec);
     }
 
-    public String decrypt(String cipherText) {
-        //Caesar Cipher Decryption
+    public List<Candidate> decryptCandidates(String cipherText) {
+        List<Candidate> candidates = new ArrayList<>();
+        int maxShift = detectMaxShift(cipherText);
+        for (int shift = 0; shift < maxShift; shift++) {
+            String candidateText = encrypt(cipherText, -shift);
+            if (isValidText(candidateText)) {
+                candidates.add(new Candidate(candidateText, shift));
+            }
+        }
+        return candidates;
+    }
+
+    public static class Candidate {
+        public final String text;
+        public final int shift;
+
+        public Candidate(String text, int shift) {
+            this.text = text;
+            this.shift = shift;
+        }
+    }
+
+    private int detectMaxShift(String text) {
+        if (text.matches(".*[А-Яа-яЁё].*")) {
+            return 33;  //russian alphabet
+        } else {
+            return 26;  //english alphabet
+        }
+    }
+
+    private boolean isValidText(String text) {
+        return text.matches("[А-Яа-яЁёA-Za-z .,!?;:'\"-]*");
+    }
+
+    //SECOND DECRYPTION SOLUTION (might work if external libraries for dictionaries would be allowed)
+    public String decryptView(String cipherText) {
+        //Brude-force Caesar Cipher Decryption with candidate scoring
+        //Would work with external libraries
         if (cipherText == null || cipherText.isEmpty()) {
             return "";
         }
-        return null;
+        String bestGuess = "";
+        int maxScore = -1;
+        int maxShift = detectMaxShift(cipherText);
+        for (int shift = 0; shift <= maxShift; shift++) {
+            String candidate = encrypt(cipherText, -shift);
+            System.out.println("Shift " + shift + ": " + candidate);
+            if (!isValidText(candidate)) continue;
+            int score = countWords(candidate) + countVowels(candidate);
+            System.out.println("Words count: " + score);
+            if (score > maxScore) {
+                maxScore = score;
+                bestGuess = candidate;
+            }
+        }
+        return bestGuess;
     }
+
+    private int countWords(String text) {
+        if (text == null || text.isEmpty()) {
+            return 0;
+        }
+        String[] words = text.split("\\s+");
+        return words.length;
+    }
+
+    private int countVowels(String text) {
+        int count = 0;
+        String vowels = "аеёиоуыэюяaeiouyAEIOUY";
+        for (char c : text.toCharArray()) {
+            if (vowels.indexOf(c) >= 0) count++;
+        }
+        return count;
+    }
+
 }
