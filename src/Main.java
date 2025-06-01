@@ -2,10 +2,16 @@ import arithmetic.ArithmeticEval;
 import caesar.CaesarCipher;
 import java.util.Scanner;
 
+// Console-based application for the Gehtsoft technical assessment.
+// Provides a basic UI for Caesar Cipher Encryption/Decryption and Arithmetic Expression Evaluation.
+// Users can input data via console or from a file. Clean structure and basic error handling included.
+
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        CaesarCipher cipher = new CaesarCipher();
+        ArithmeticEval arithEval = new ArithmeticEval();
 
         System.out.println("Welcome to Gehtsoft Technical Assessment");
 
@@ -16,7 +22,7 @@ public class Main {
             System.out.println("2. Caesar Cipher Decryption");
             System.out.println("3. Arithmetic Expression Evaluation");
             System.out.println("4. Exit");
-            System.out.println("Enter your choice: ");
+            System.out.print("Enter your choice: ");
 
             String selectedNum = scanner.nextLine();
 
@@ -25,53 +31,74 @@ public class Main {
                 key = false;
                 break;
             } else if (selectedNum.equals("1") || selectedNum.equals("2") || selectedNum.equals("3")) {
-                System.out.println("Read from file? y/n: ");
+                System.out.print("Read from file? y/n: ");
                 String choice = scanner.nextLine();
-
                 String input;
                 if (choice.equals("y")) {
-                    System.out.println("Enter path to file: ");
+                    System.out.print("Enter path to file: ");
                     String path = scanner.nextLine();
-                    input = CaesarCipher.readFile(path); //readFile method will read info from file
-                } else {
-                    System.out.println("Enter input: ");
+                    input = cipher.readFile(path); //readFile method will read info from the file
+                } else if (choice.equals("n")) {
+                    System.out.print("Enter input: ");
                     input = scanner.nextLine();
+                } else {
+                    System.out.print("Invalid choice. Please, choose y/n: ");
+                    continue;
                 }
 
                 switch (selectedNum) {
                     case "1":
                         //Caesar Cipher Encryption
-                        System.out.println("Enter shift value: ");
-                        int shiftEnc = scanner.nextInt(); //redo
-                        scanner.nextLine();
-                        String resultEnc = CaesarCipher.encrypt(input, shiftEnc);
+                        System.out.print("Enter shift value: ");
+                        String shiftEncStr = scanner.nextLine(); //String type first, then later after checking for the right input;
+                        int shiftEnc;
+                        try {
+                            shiftEnc = Integer.parseInt(shiftEncStr);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid shift value. Please, enter a number.");
+                            break;
+                        }
+
+                        String resultEnc = cipher.encrypt(input, shiftEnc);
                         System.out.println("Result: " + resultEnc);
                         break;
                     case "2":
                         //Caesar Cipher Encryption
-                        System.out.println("Enter shift value: ");
-                        int shiftDec = scanner.nextInt(); //redo
-                        scanner.nextLine();
-                        String resultDec = CaesarCipher.decrypt(input, shiftDec);
+                        System.out.print("Enter shift value: ");
+                        String shiftDecStr = scanner.nextLine(); //String type first, then later after checking for the right input;
+                        int shiftDec;
+                        try {
+                            shiftDec = Integer.parseInt(shiftDecStr);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid shift value. Please, enter a number.");
+                            break;
+                        }
+                        String resultDec = cipher.decrypt(input, shiftDec);
                         System.out.println("Result: " + resultDec);
                         break;
                     case "3":
                         //Arithmetic Expression Evaluation
-                        System.out.println("In progress");
+                        long resultEval = arithEval.evaluate(input);
+                        System.out.println("Result: " + resultEval);
                         break;
-                    case "4":
-                        System.out.println("Goodbye!");
-                        break;
+                    default:
+                        System.out.println("Invalid choice. Please, choose from 1 to 4.");
                 }
-            } else {
-                System.out.println("Invalid choice. Please, choose from 1 to 4.");
             }
 
-            System.out.println("\nContinue? y/n: ");
+            System.out.print("\nContinue? y/n: ");
             String check = scanner.nextLine();
-            if (check.equals("n")) {
-                key = false;
-                System.out.println("Goodbye!");
+            switch (check) {
+                case "n":
+                    System.out.println("Goodbye!");
+                    key = false;
+                    break;
+                case "y":
+                    System.out.println("Returning to menu..");
+                    break;
+                default:
+                    System.out.print("Invalid choice. Please, choose y/n: ");
+                    break;
             }
         }
         scanner.close();
