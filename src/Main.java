@@ -42,7 +42,7 @@ public class Main {
                     System.out.print("Enter input: ");
                     input = scanner.nextLine();
                 } else {
-                    System.out.print("Invalid choice. Please, choose y/n: ");
+                    System.out.println("Invalid choice. Please, choose y/n: ");
                     continue;
                 }
 
@@ -63,18 +63,27 @@ public class Main {
                         System.out.println("Result: " + resultEnc);
                         break;
                     case "2":
-                        //Caesar Cipher Encryption
-                        System.out.print("Enter shift value: ");
-                        String shiftDecStr = scanner.nextLine(); //String type first, then later after checking for the right input;
-                        int shiftDec;
-                        try {
-                            shiftDec = Integer.parseInt(shiftDecStr);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid shift value. Please, enter a number.");
-                            break;
+                        //Caesar Cipher Decryption
+                        System.out.print("Do you know the shift value? y/n: "); //check for shift value
+                        String shiftValue = scanner.nextLine();
+                        if (shiftValue.equals("y")) {
+                            System.out.print("Enter shift value: ");
+                            String shiftDecStr = scanner.nextLine();
+                            int shiftDec;
+                            try {
+                                shiftDec = Integer.parseInt(shiftDecStr);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid shift value. Please, enter a number.");
+                                break;
+                            }
+                            String resultDec = cipher.decrypt(input, shiftDec); //decrypt() with shift value
+                            System.out.println("Result: " + resultDec);
+                        } else if (shiftValue.equals("n")) {
+                            String resultDec = cipher.decrypt(input); //decrypt() without shift value
+                            System.out.println("Result: " + resultDec);
+                        } else {
+                            System.out.println("Invalid choice. Please, choose y/n.");
                         }
-                        String resultDec = cipher.decrypt(input, shiftDec);
-                        System.out.println("Result: " + resultDec);
                         break;
                     case "3":
                         //Arithmetic Expression Evaluation
