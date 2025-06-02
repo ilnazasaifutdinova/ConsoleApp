@@ -111,7 +111,7 @@ public class ArithmeticEval {
                         expResult = oper1 * oper2;
                         break;
                     case "/":
-                        if (oper2 == 0) throw new ArithmeticException("Division by zero");
+                        if (oper1 == 0) throw new ArithmeticException("Division by zero");
                         expResult = oper2 / oper1;
                         break;
                     default:
@@ -129,6 +129,7 @@ public class ArithmeticEval {
     public long evaluate(String expression) {
         if (expression == null || expression.isEmpty()) {
             System.out.println("Expression is null or empty");
+            return 0;
         }
         expression = expression.replaceAll("\\s+", "");
         List<String> tokens = tokenise(expression);
