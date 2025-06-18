@@ -1,7 +1,10 @@
 # ConsoleApp – Gehtsoft Technical Assessment Report
 
+## Update: passed! You can see my work for Gehtsoft Training Program here: [JavaTrainings](https://github.com/ilnazasaifutdinova/JavaTrainings)
+
 ## 💻 Project Description
 This repository contains a Java console application created for the Gehtsoft Training Program entrance assignment.  
+
 The project implements two core functionalities:
 
 1. **Caesar Cipher Encryption/Decryption** – Supports both Russian (including Cyrillic letters with Ё/ё) and English alphabets. The cipher preserves letter case and leaves non-alphabetic characters unchanged. Decryption can be done with a known shift or by brute-force guessing the shift value with candidate output suggestions.
