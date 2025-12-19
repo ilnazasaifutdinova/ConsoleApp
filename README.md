@@ -1,7 +1,5 @@
 # ConsoleApp – Gehtsoft Technical Assessment Report
 
-## Update: passed! You can see my work for Gehtsoft Training Program here: [JavaTrainings](https://github.com/ilnazasaifutdinova/JavaTrainings)
-
 ## 💻 Project Description
 This repository contains a Java console application created for the Gehtsoft Training Program entrance assignment.  
 
